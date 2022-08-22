@@ -8,8 +8,8 @@ namespace Pathfinding_Algo
 
         static void Main(string[] args)
         {
-            Board board = new Board();
-            board.ListInitialize();
+            Board board = new Board(25);
+            board.Initialize();
 
             Console.CursorVisible = false;
 
@@ -35,16 +35,7 @@ namespace Pathfinding_Algo
 
                 // render
                 Console.SetCursorPosition(0, 0);
-
-                for (int i = 0; i < 25; i++)
-                {
-                    for (int y = 0; y < 25; y++)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write(CIRCLE);
-                    }
-                    Console.WriteLine();
-                }
+                board.Render();
             }
 
         }

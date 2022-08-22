@@ -3,128 +3,74 @@ using System.Collections.Generic;
 
 namespace Pathfinding_Algo
 {
-    public class MyList<T>
-    {
-        const int DEFAULT_SIZE = 1;
-        T[] _data = new T[DEFAULT_SIZE];
 
-        public int Count = 0; // real usage data
-        public int Capacity { get { return _data.Length; } }// reserved data
-
-        public void Add(T item)
-        {
-            // check if enough room available
-            if (Count >= Capacity)
-            {
-                T[] newArray = new T[Count * 2];
-                for (int i = 0; i < Count; i++)
-                {
-                    newArray[i] = _data[i];
-                }
-                _data = newArray;
-            }
-
-            //
-            _data[Count] = item;
-            Count++;
-        }
-
-        public T this[int index]
-        {
-            get { return _data[index]; }
-            set { _data[index] = value; }
-        }
-
-        public void RemoveAt(int index)
-        {
-            for (int i = index; i < Count - 1; i++)
-            {
-                _data[i] = _data[i + 1];
-            }
-            _data[Count - 1] = default(T);
-
-            Count--;
-        }
-    }
-
-    public class MyNode<T>
-    {
-        public T Data;
-        public MyNode<T> Next;
-        public MyNode<T> Prev;
-    }
-
-    public class MyNodeList<T>
-    {
-        public int Count = 0;
-
-        public MyNode<T> Head = null;
-        public MyNode<T> Tail = null;
-
-        public MyNode<T> AddLast(T data)
-        {
-            MyNode<T> newNode = new MyNode<T>();
-            newNode.Data = data;
-
-            if (Head == null)
-            {
-                Head = newNode;
-            }
-            if (Tail != null)
-            {
-                Tail.Next = newNode;
-                newNode.Prev = Tail;
-            }
-            Tail = newNode;
-            Count++;
-
-            return newNode;
-        }
-
-        public void Remove(MyNode<T> node)
-        {
-            if (Head == node)
-            {
-                Head = Head.Next;
-            }
-            if (Tail == node)
-            {
-                Tail = Tail.Prev;
-            }
-
-            if (node.Prev != null)
-            {
-                node.Prev.Next = node.Next;
-            }
-            if (node.Next != null)
-            {
-                node.Next.Prev = node.Prev;
-            }
-            Count--;
-        }
-    }
 
     public class Board
     {
-        public int[] _data = new int[25];
-        public MyList<int> _data2 = new MyList<int>();
-        public LinkedList<int> _data3 = new LinkedList<int>();
+        const char CIRCLE = '\u25cf';
 
-        public Board()
+        public TileType[,] _tile;
+        public int _size;
+
+        public enum TileType
         {
+            Empty,
+            Wall
         }
 
-        public void ListInitialize()
+        public Board(int size)
         {
-            _data2.Add(101);
-            _data2.Add(102);
-            _data2.Add(103);
-            _data2.Add(104);
-            _data2.Add(105);
+            _tile = new TileType[size, size];
+            _size = size;
+        }
 
-            int temp = _data2[2];
+        public void Initialize()
+        {
+            for (int y = 0; y < _size; y++)
+            {
+                for (int x = 0; x < _size; x++)
+                {
+                    if (x == 0 || x == _size - 1 || y == 0 || y == _size - 1)
+                    {
+                        _tile[y, x] = TileType.Wall;
+                    }
+                    else
+                    {
+                        _tile[y, x] = TileType.Empty;
+                    }
+                }
+            }
+        }
 
-            _data2.RemoveAt(2);
+        public void Render()
+        {
+            ConsoleColor prevColor = Console.ForegroundColor;
+
+            for (int y = 0; y < _size; y++)
+            {
+
+                for (int x = 0; x < _size; x++)
+                {
+                    Console.ForegroundColor = GetTileColor(_tile[y, x]);
+                    Console.Write(CIRCLE);
+                }
+                Console.WriteLine();
+            }
+
+            Console.ForegroundColor = prevColor;
+        }
+
+        ConsoleColor GetTileColor(TileType type)
+        {
+            switch (type)
+            {
+                case TileType.Empty:
+                    return ConsoleColor.Green;
+                case TileType.Wall:
+                    return ConsoleColor.Red;
+                default:
+                    return ConsoleColor.Green;
+            }
         }
     }
 }
