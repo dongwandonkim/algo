@@ -8,8 +8,8 @@ namespace Pathfinding_Algo
 
         static void Main(string[] args)
         {
-            Board board = new Board(25);
-            board.Initialize();
+            Board board = new Board();
+            board.Initialize(25);
 
             Console.CursorVisible = false;
 
