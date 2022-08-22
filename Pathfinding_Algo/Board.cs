@@ -47,6 +47,63 @@ namespace Pathfinding_Algo
         }
     }
 
+    public class MyNode<T>
+    {
+        public T Data;
+        public MyNode<T> Next;
+        public MyNode<T> Prev;
+    }
+
+    public class MyNodeList<T>
+    {
+        public int Count = 0;
+
+        public MyNode<T> Head = null;
+        public MyNode<T> Tail = null;
+
+        public MyNode<T> AddLast(T data)
+        {
+            MyNode<T> newNode = new MyNode<T>();
+            newNode.Data = data;
+
+            if (Head == null)
+            {
+                Head = newNode;
+            }
+            if (Tail != null)
+            {
+                Tail.Next = newNode;
+                newNode.Prev = Tail;
+            }
+            Tail = newNode;
+            Count++;
+
+            return newNode;
+        }
+
+        public void Remove(MyNode<T> node)
+        {
+            if (Head == node)
+            {
+                Head = Head.Next;
+            }
+            if (Tail == node)
+            {
+                Tail = Tail.Prev;
+            }
+
+            if (node.Prev != null)
+            {
+                node.Prev.Next = node.Next;
+            }
+            if (node.Next != null)
+            {
+                node.Next.Prev = node.Prev;
+            }
+            Count--;
+        }
+    }
+
     public class Board
     {
         public int[] _data = new int[25];
