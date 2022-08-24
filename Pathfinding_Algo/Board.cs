@@ -9,8 +9,8 @@ namespace Pathfinding_Algo
     {
         const char CIRCLE = '\u25cf';
 
-        public TileType[,] _tile;
-        public int _size;
+        public TileType[,] Tile { get; private set; }
+        public int Size { get; private set; }
 
         Player _player;
 
@@ -25,8 +25,8 @@ namespace Pathfinding_Algo
         {
             if (size % 2 == 0) return;
 
-            _tile = new TileType[size, size];
-            _size = size;
+            Tile = new TileType[size, size];
+            Size = size;
             //
             _player = player;
 
@@ -36,58 +36,58 @@ namespace Pathfinding_Algo
         }
         public void GenerateSideWinderMaze()
         {
-            for (int y = 0; y < _size; y++)
+            for (int y = 0; y < Size; y++)
             {
-                for (int x = 0; x < _size; x++)
+                for (int x = 0; x < Size; x++)
                 {
                     if (x % 2 == 0 || y % 2 == 0)
                     {
-                        _tile[y, x] = TileType.Wall;
+                        Tile[y, x] = TileType.Wall;
                     }
                     else
                     {
-                        _tile[y, x] = TileType.Empty;
+                        Tile[y, x] = TileType.Empty;
                     }
                 }
             }
 
             // create path
             Random rand = new Random();
-            for (int y = 0; y < _size; y++)
+            for (int y = 0; y < Size; y++)
             {
                 int count = 0;
-                for (int x = 0; x < _size; x++)
+                for (int x = 0; x < Size; x++)
                 {
                     if (x % 2 == 0 || y % 2 == 0)
                     {
                         continue;
                     }
 
-                    if (y == _size - 2 && x == _size - 2) continue;
+                    if (y == Size - 2 && x == Size - 2) continue;
 
                     // second last
-                    if (y == _size - 2)
+                    if (y == Size - 2)
                     {
-                        _tile[y, x + 1] = TileType.Empty;
+                        Tile[y, x + 1] = TileType.Empty;
                         continue;
                     }
-                    if (x == _size - 2)
+                    if (x == Size - 2)
                     {
-                        _tile[y + 1, x] = TileType.Empty;
+                        Tile[y + 1, x] = TileType.Empty;
                         continue;
                     }
 
                     // create path 50% right or bottom
                     if (rand.Next(0, 2) == 0)
                     {
-                        _tile[y, x + 1] = TileType.Empty;
+                        Tile[y, x + 1] = TileType.Empty;
                         count++;
                     }
                     else
                     {
                         int randomIndex = rand.Next(0, count);
                         // go back 2 indexes where it was TileType.Emply initialy
-                        _tile[y + 1, x - randomIndex * 2] = TileType.Empty;
+                        Tile[y + 1, x - randomIndex * 2] = TileType.Empty;
                         count = 0;
                     }
                 }
@@ -97,54 +97,54 @@ namespace Pathfinding_Algo
 
         public void GenerateBinaryTreeMaze()
         {
-            for (int y = 0; y < _size; y++)
+            for (int y = 0; y < Size; y++)
             {
-                for (int x = 0; x < _size; x++)
+                for (int x = 0; x < Size; x++)
                 {
                     if (x % 2 == 0 || y % 2 == 0)
                     {
-                        _tile[y, x] = TileType.Wall;
+                        Tile[y, x] = TileType.Wall;
                     }
                     else
                     {
-                        _tile[y, x] = TileType.Empty;
+                        Tile[y, x] = TileType.Empty;
                     }
                 }
             }
 
             // create path
             Random rand = new Random();
-            for (int y = 0; y < _size; y++)
+            for (int y = 0; y < Size; y++)
             {
-                for (int x = 0; x < _size; x++)
+                for (int x = 0; x < Size; x++)
                 {
                     if (x % 2 == 0 || y % 2 == 0)
                     {
                         continue;
                     }
 
-                    if (y == _size - 2 && x == _size - 2) continue;
+                    if (y == Size - 2 && x == Size - 2) continue;
 
                     // second last
-                    if (y == _size - 2)
+                    if (y == Size - 2)
                     {
-                        _tile[y, x + 1] = TileType.Empty;
+                        Tile[y, x + 1] = TileType.Empty;
                         continue;
                     }
-                    if (x == _size - 2)
+                    if (x == Size - 2)
                     {
-                        _tile[y + 1, x] = TileType.Empty;
+                        Tile[y + 1, x] = TileType.Empty;
                         continue;
                     }
 
                     // create path 50% right or bottom
                     if (rand.Next(0, 2) == 0)
                     {
-                        _tile[y, x + 1] = TileType.Empty;
+                        Tile[y, x + 1] = TileType.Empty;
                     }
                     else
                     {
-                        _tile[y + 1, x] = TileType.Empty;
+                        Tile[y + 1, x] = TileType.Empty;
                     }
                 }
             }
@@ -154,9 +154,9 @@ namespace Pathfinding_Algo
         {
             ConsoleColor prevColor = Console.ForegroundColor;
 
-            for (int y = 0; y < _size; y++)
+            for (int y = 0; y < Size; y++)
             {
-                for (int x = 0; x < _size; x++)
+                for (int x = 0; x < Size; x++)
                 {
                     if (y == _player.PosY && x == _player.PosX)
                     {
@@ -164,7 +164,7 @@ namespace Pathfinding_Algo
                     }
                     else
                     {
-                        Console.ForegroundColor = GetTileColor(_tile[y, x]);
+                        Console.ForegroundColor = GetTileColor(Tile[y, x]);
                     }
 
 

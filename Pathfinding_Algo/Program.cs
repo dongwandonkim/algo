@@ -11,7 +11,7 @@ namespace Pathfinding_Algo
             Board board = new Board();
             Player player = new Player();
             board.Initialize(25, player);
-            player.Initialize(1, 1);
+            player.Initialize(1, 1, board.Size - 2, board.Size - 2, board);
 
             Console.CursorVisible = false;
 
