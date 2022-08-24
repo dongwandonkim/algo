@@ -28,11 +28,13 @@ namespace Pathfinding_Algo
                 {
                     continue;
                 }
+                int deltaTick = currentTick - lastTick;
                 lastTick = currentTick;
                 #endregion
                 // user input
 
                 // logic
+                player.Update(deltaTick);
 
                 // render
                 Console.SetCursorPosition(0, 0);

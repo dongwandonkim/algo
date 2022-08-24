@@ -15,6 +15,17 @@ namespace Pathfinding_Algo
 
             _board = board;
         }
+
+        const int MOVE_TICK = 100;
+        int _sumTick = 0;
+        public void Update(int deltaTick)
+        {
+            _sumTick += deltaTick;
+            if (_sumTick >= MOVE_TICK)
+            {
+                _sumTick = 0;
+            }
+        }
     }
 }
 
