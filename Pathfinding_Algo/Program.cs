@@ -9,13 +9,14 @@ namespace Pathfinding_Algo
         static void Main(string[] args)
         {
             Board board = new Board();
-            board.Initialize(25);
+            Player player = new Player();
+            board.Initialize(25, player);
+            player.Initialize(1, 1);
 
             Console.CursorVisible = false;
 
             int lastTick = 0;
             const int WAIT_TICK = 1000 / 30; // 1/30 seconds - 30fps
-            const char CIRCLE = '\u25cf';
             while (true)
             {
                 #region FPS

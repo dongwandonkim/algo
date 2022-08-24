@@ -12,6 +12,8 @@ namespace Pathfinding_Algo
         public TileType[,] _tile;
         public int _size;
 
+        Player _player;
+
         public enum TileType
         {
             Empty,
@@ -19,13 +21,14 @@ namespace Pathfinding_Algo
         }
 
 
-        public void Initialize(int size)
+        public void Initialize(int size, Player player)
         {
             if (size % 2 == 0) return;
 
             _tile = new TileType[size, size];
             _size = size;
             //
+            _player = player;
 
             //GenerateBinaryTreeMaze();
             GenerateSideWinderMaze();
@@ -153,10 +156,18 @@ namespace Pathfinding_Algo
 
             for (int y = 0; y < _size; y++)
             {
-
                 for (int x = 0; x < _size; x++)
                 {
-                    Console.ForegroundColor = GetTileColor(_tile[y, x]);
+                    if (y == _player.PosY && x == _player.PosX)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = GetTileColor(_tile[y, x]);
+                    }
+
+
                     Console.Write(CIRCLE);
                 }
                 Console.WriteLine();
